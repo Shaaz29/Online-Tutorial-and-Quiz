@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ quiz.title }} - Online Tutorial System{% endblock %}
+
+{% block content %}
+<div class="quiz-detail">
+    <h2>{{ quiz.title }}</h2>
+    <div class="quiz-meta">
+        <p><strong>Description:</strong> {{ quiz.description }}</p>
+        <p><strong>Created by:</strong> {{ quiz.created_by.username }}</p>
+        <p><strong>Total Questions:</strong> {{ quiz.questions.count }}</p>
+        {% if user_rank %}
+            <p><strong>Your Rank:</strong> {{ user_rank }}</p>
+        {% endif %}
+    </div>
+
+
+    {% if user.is_authenticated %}
+        <div id="instructions-section">
+            <h3>Quiz Instructions</h3>
+            <ul>
+                <li>This is a multiple-choice quiz.</li>
+                <li>You have <strong>6 minutes</strong> to complete the quiz.</li>
+                <li>Read each question carefully and select the correct answer.</li>
+                <li>Once you start, the timer will begin and cannot be paused.</li>
+                <li>The quiz will be auto-submitted when time is up.</li>
+            </ul>
+            <button id="start-quiz-btn" class="btn btn-success">I have read the instructions. Start Quiz</button>
+        </div>
+        <div id="quiz-section" style="display:none;">
+            <div id="timer" style="font-size:1.2em; color:#b22222; font-weight:bold; margin-bottom:1em;">Time left: 06:00</div>
+            <form method="POST" action="{% url 'quizzes:submit_quiz' quiz.id %}" class="quiz-form" id="quiz-form">
+                {% csrf_token %}
+                {% for question in quiz.questions.all %}
+                    <div class="question">
+                        <h4>{{ forloop.counter }}. {{ question.question_text }}</h4>
+                        <div class="options">
+                            <label>
+                                <input type="radio" name="question_{{ question.id }}" value="{{ question.option_a }}" required>
+                                A) {{ question.option_a }}
+                            </label><br>
+                            <label>
+                                <input type="radio" name="question_{{ question.id }}" value="{{ question.option_b }}" required>
+                                B) {{ question.option_b }}
+                            </label><br>
+                            <label>
+                                <input type="radio" name="question_{{ question.id }}" value="{{ question.option_c }}" required>
+                                C) {{ question.option_c }}
+                            </label><br>
+                            <label>
+                                <input type="radio" name="question_{{ question.id }}" value="{{ question.option_d }}" required>
+                                D) {{ question.option_d }}
+                            </label><br>
+                        </div>
+                        {% if question.reference_link %}
+                            <p><a href="{{ question.reference_link }}" target="_blank">Reference/Explanation</a></p>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p>This quiz has no questions yet.</p>
+                {% endfor %}
+                {% if quiz.questions.count > 0 %}
+                    <button type="submit" class="btn btn-primary">Submit Quiz</button>
+                {% endif %}
+            </form>
+        </div>
+        <script>
+        // Hide quiz and timer initially, show instructions
+        const instructionsSection = document.getElementById('instructions-section');
+        const quizSection = document.getElementById('quiz-section');
+        const startQuizBtn = document.getElementById('start-quiz-btn');
+        let timerStarted = false;
+        let timeLeft = 6 * 60;
+        let timerDisplay, quizForm;
+        function updateTimer() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerDisplay.textContent = `Time left: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            if (timeLeft <= 0) {
+                timerDisplay.textContent = 'Time is up! Submitting...';
+                quizForm.submit();
+            } else {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            }
+        }
+        startQuizBtn.addEventListener('click', function() {
+            instructionsSection.style.display = 'none';
+            quizSection.style.display = 'block';
+            timerDisplay = document.getElementById('timer');
+            quizForm = document.getElementById('quiz-form');
+            if (!timerStarted) {
+                timerStarted = true;
+                updateTimer();
+            }
+        });
+        </script>
+    {% else %}
+        <p>Please <a href="{% url 'accounts:login' %}">login</a> to take this quiz.</p>
+    {% endif %}
+    
+    <div class="quiz-actions">
+        <a href="{% url 'quizzes:quiz_list' %}" class="btn btn-secondary">← Back to Quizzes</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tutorial.title }} - Online Tutorial System{% endblock %}
+
+{% block content %}
+<div class="tutorial-detail">
+    <h2>{{ tutorial.title }}</h2>
+    <div class="tutorial-meta">
+        <p><strong>Category:</strong> {{ tutorial.category.name }}</p>
+        <p><strong>Created:</strong> {{ tutorial.created_at|date:"M d, Y" }}</p>
+        <p><strong>Last Updated:</strong> {{ tutorial.updated_at|date:"M d, Y" }}</p>
+    </div>
+    
+    <div class="tutorial-content">
+        {{ tutorial.content|linebreaks }}
+        {% if tutorial.reference_link %}
+            <a href="{{ tutorial.reference_link }}" target="_blank">click here</a>
+        {% endif %}
+    </div>
+    
+    <div class="tutorial-actions">
+        <a href="{% url 'tutorials:tutorial_list' %}" class="btn btn-secondary">← Back to Tutorials</a>
+    </div>
+</div>
+{% endblock %}

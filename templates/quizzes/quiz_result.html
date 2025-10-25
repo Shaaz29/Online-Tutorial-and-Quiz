@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load quiz_extras %}
+
+{% block title %}Quiz Result - {{ quiz.title }}{% endblock %}
+
+{% block content %}
+<div class="quiz-result">
+    <h2>Quiz Result: {{ quiz.title }}</h2>
+    <div class="result-summary">
+        <div class="score-badge">{{ score }} / {{ total_questions }}</div>
+        <div class="progress-wrap">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <div><strong>Your Rank:</strong> {{ user_rank }}</div>
+                <div class="badge-comment">{{ rank_comment }}</div>
+            </div>
+            <div class="progress">
+                <i style="width: {{ percent }}%;"></i>
+            </div>
+        </div>
+    </div>
+    <h3>Your Responses:</h3>
+    <ul>
+    {% for question in quiz.questions.all %}
+        <li>
+            <strong>{{ question.question_text }}</strong><br>
+            <div style="margin-top:6px;">
+                <span>Your answer:</span>
+                <span style="margin-left:6px;">{{ responses|get_item:question.id|stringformat:"s" }}</span>
+                <span style="margin-left:12px;">Correct answer: {{ question.correct_answer }}</span>
+                {% if responses|get_item:question.id|stringformat:"s" == question.correct_answer %}
+                    <span class="correct" style="margin-left:12px;">✔ Correct</span>
+                {% else %}
+                    <span class="incorrect" style="margin-left:12px;">✘ Incorrect</span>
+                {% endif %}
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+    <div class="quiz-actions">
+        <a href="{% url 'quizzes:quiz_list' %}" class="btn btn-secondary">← Back to Quizzes</a>
+        <a href="{% url 'quizzes:quiz_detail' quiz.id %}" class="btn btn-primary">View Quiz</a>
+    </div>
+</div>
+{% endblock %}
