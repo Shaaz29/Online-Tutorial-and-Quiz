@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
-
+# Shaaz Project
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'online_tutorial_system.settings')
     try:
