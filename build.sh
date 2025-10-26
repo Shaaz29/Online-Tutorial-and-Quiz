@@ -17,13 +17,13 @@ pip --version
 echo "Upgrading pip..."
 pip install --upgrade pip setuptools wheel
 
-# Install psycopg2-binary explicitly first
-echo "Installing psycopg2-binary..."
-pip install psycopg2-binary==2.9.9
+# Install psycopg3 (works with Python 3.13)
+echo "Installing psycopg for PostgreSQL..."
+pip install "psycopg[binary]==3.1.18"
 
-# Debug: Verify psycopg2 installation
-echo "Checking psycopg2 installation:"
-python -c "import psycopg2; print('psycopg2 version:', psycopg2.__version__)" || echo "Failed to import psycopg2"
+# Debug: Verify psycopg installation
+echo "Checking psycopg installation:"
+python -c "import psycopg; print('psycopg version:', psycopg.__version__)" || echo "Failed to import psycopg"
 
 # Install other dependencies
 echo "Installing other dependencies..."
