@@ -21,14 +21,20 @@ This guide will walk you through deploying your Django application to Render.
 1. In your Render dashboard, click **"New +"** button
 2. Select **"PostgreSQL"**
 3. Configure the database:
-   - **Name**: `online-tutorial-quiz-db`
-   - **Database**: `online-tutorial-quiz-db`
-   - **User**: `online-tutorial-quiz-db-user` (or auto-generated)
-   - **Region**: Choose closest to you
-   - **PostgreSQL Version**: 15
+   - **Name**: `online_tutorial_quiz_db`
+   - **Database**: `online_tutorial_quiz_db` (Use underscores, not hyphens!)
+   - **User**: `online_tutorial_quiz_db_user` (Use underscores, not hyphens!)
+   - **Region**: Choose closest to you (e.g., Oregon US West)
+   - **PostgreSQL Version**: 17 (or latest available)
    - **Plan**: Select **Free** for testing
+   - **Storage**: 15 GB (minimum for free tier)
 4. Click **"Create Database"**
 5. **Copy the "Internal Database URL"** - you'll need this later
+
+⚠️ **Important**: Database and User names must follow pattern: `/^[a-z_][a-z0-9_]*$/`
+- ✅ Use **underscores** (`_`) instead of hyphens
+- ❌ Do NOT use hyphens or special characters
+- ✅ Only lowercase letters, numbers, and underscores allowed
 
 ### Step 3: Create a Web Service
 1. In Render dashboard, click **"New +"** button
@@ -152,6 +158,14 @@ If you need to upload images/files:
 ---
 
 ## Troubleshooting
+
+### "database must match the following pattern" Error
+If you see this error while creating the PostgreSQL database:
+- **Error**: `database must match the following: "/(^[a-z_][a-z0-9_]*$)|(^$)/"`
+- **Solution**: Use underscores (`_`) instead of hyphens (`-`) in database and user names
+  - ❌ Wrong: `online-tutorial-quiz-db`
+  - ✅ Correct: `online_tutorial_quiz_db`
+- **Allowed characters**: Only lowercase letters (a-z), numbers (0-9), and underscores (_)
 
 ### Build Fails
 - Check build logs for specific errors

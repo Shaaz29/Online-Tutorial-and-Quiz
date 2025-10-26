@@ -6,6 +6,9 @@ set -o pipefail # Fail even when piping
 
 echo "Building application..."
 
+# Upgrade pip first
+pip install --upgrade pip
+
 # Install dependencies
 pip install -r requirements.txt
 
