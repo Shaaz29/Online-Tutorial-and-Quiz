@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 # Build script for Render deployment
 
-set -o errexit  # Exit on any error
-set -o pipefail # Fail even when piping
+set -e  # Exit on error
 
 echo "Building application..."
 
 # Upgrade pip first
 pip install --upgrade pip setuptools wheel
 
-# Install build dependencies for psycopg
-pip install psycopg-binary==3.2.12
+# Install psycopg2-binary explicitly first
+pip install psycopg2-binary==2.9.9
 
-# Install dependencies
+# Install other dependencies
 pip install -r requirements.txt
 
 # Collect static files
