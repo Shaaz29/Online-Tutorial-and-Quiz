@@ -41,5 +41,9 @@ python manage.py collectstatic --noinput
 echo "Running migrations..."
 python manage.py migrate --noinput
 
+# Create admin user if it doesn't exist
+echo "Creating admin user..."
+python manage.py create_admin
+
 echo "Build completed successfully!"
 
