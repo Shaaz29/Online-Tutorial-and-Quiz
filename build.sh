@@ -7,7 +7,10 @@ set -o pipefail # Fail even when piping
 echo "Building application..."
 
 # Upgrade pip first
-pip install --upgrade pip
+pip install --upgrade pip setuptools wheel
+
+# Install build dependencies for psycopg
+pip install psycopg-binary==3.2.0
 
 # Install dependencies
 pip install -r requirements.txt
