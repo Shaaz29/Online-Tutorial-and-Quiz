@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: online-tutorial-quiz-system
+    runtime: python
+    buildCommand: chmod +x ./build.sh && ./build.sh
+    startCommand: gunicorn online_tutorial_system.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.12
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DJANGO_SETTINGS_MODULE
+        value: online_tutorial_system.settings
+
+databases:
+  - name: online-tutorial-quiz-db
+    plan: free
+    postgresMajorVersion: 15
+
