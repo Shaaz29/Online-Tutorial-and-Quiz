@@ -10,7 +10,7 @@ echo "Building application..."
 pip install --upgrade pip setuptools wheel
 
 # Install build dependencies for psycopg
-pip install psycopg-binary==3.2.0
+pip install psycopg-binary==3.2.12
 
 # Install dependencies
 pip install -r requirements.txt
