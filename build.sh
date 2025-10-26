@@ -19,7 +19,7 @@ pip install --upgrade pip setuptools wheel
 
 # Install psycopg3 (works with Python 3.13)
 echo "Installing psycopg for PostgreSQL..."
-pip install "psycopg[binary]==3.1.18"
+pip install "psycopg[binary]==3.2.12"
 
 # Debug: Verify psycopg installation
 echo "Checking psycopg installation:"
