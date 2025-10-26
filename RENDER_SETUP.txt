@@ -1,0 +1,72 @@
+POSTGRESQL DATABASE CONNECTION DETAILS
+========================================
+✅ Database Created Successfully!
+
+Database Configuration:
+- Database Name: online_tutorial_quiz_db
+- Username: online_tutorial_quiz_db_user
+- Hostname: dpg-d3v0j2pr0fns73c50h9g-a
+- Port: 5432
+- Region: Oregon (US West)
+
+INTERNAL DATABASE URL (Use this for Render services):
+postgresql://online_tutorial_quiz_db_user:mV7N6tyM5u4gFSTdh1e0j6qThkoJTr94@dpg-d3v0j2pr0fns73c50h9g-a/online_tutorial_quiz_db
+
+===================================================================================
+
+WEB SERVICE CONFIGURATION FOR RENDER
+========================================
+Copy these settings when creating your web service in Render:
+
+BASIC SETTINGS:
+- Name: online-tutorial-quiz-system
+- Region: Oregon (US West)
+- Branch: master
+- Root Directory: (leave empty)
+
+BUILD SETTINGS:
+- Runtime: Python 3
+- Build Command: chmod +x ./build.sh && ./build.sh
+- Start Command: gunicorn online_tutorial_system.wsgi:application
+
+ENVIRONMENT VARIABLES (Add these):
+Key: SECRET_KEY
+Value: EwCeyoQDyUPKqv7H4JB260quwyJ8XGLWYGgeXGwgJxvihZ_hpm7OIcPK0UCWjBhHqQY
+
+Key: DEBUG
+Value: False
+
+Key: DATABASE_URL
+Value: postgresql://online_tutorial_quiz_db_user:mV7N6tyM5u4gFSTdh1e0j6qThkoJTr94@dpg-d3v0j2pr0fns73c50h9g-a/online_tutorial_quiz_db
+
+Key: ALLOWED_HOSTS
+Value: (Leave empty for now - Render will populate this automatically)
+Example: online-tutorial-quiz-system.onrender.com
+
+Key: PYTHON_VERSION
+Value: 3.12.12
+
+===================================================================================
+
+SECRET_KEY GENERATION
+======================
+You need to generate a SECRET_KEY for Django. Here are options:
+
+Option 1: Use Python (recommended)
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
+Option 2: Use OpenSSL (if installed)
+openssl rand -hex 32
+
+Option 3: Use Online Generator
+https://djecrety.ir/
+
+===================================================================================
+
+NEXT STEPS:
+1. ✅ Database created
+2. ⏳ Create Web Service in Render
+3. ⏳ Configure environment variables
+4. ⏳ Deploy application
+5. ⏳ Create superuser account
+
