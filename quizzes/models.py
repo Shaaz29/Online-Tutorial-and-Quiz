@@ -6,6 +6,8 @@ class Quiz(models.Model):
     description = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(max_length=100, default='General')
+
 
     def __str__(self):
         return self.title
