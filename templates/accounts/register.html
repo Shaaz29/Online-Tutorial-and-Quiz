@@ -3,13 +3,31 @@
 {% block title %}Register - Online Tutorial System{% endblock %}
 
 {% block content %}
-<div class="auth-form">
-    <h2>Create Account</h2>
+<div style="max-width: 400px; margin: 50px auto; background-color: #f9f9f9; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Create Account</h2>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Register</button>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            {% for field in form %}
+                <div>
+                    <label style="font-weight: 500;">{{ field.label }}</label><br>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div style="color: red; font-size: 13px;">{{ field.errors|join:", " }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" 
+                style="margin-top: 20px; width: 100%; background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer;">
+            Register
+        </button>
     </form>
-    <p>Already have an account? <a href="{% url 'accounts:login' %}">Login here</a></p>
+
+    <p style="text-align: center; margin-top: 15px; color: #555;">
+        Already have an account? 
+        <a href="{% url 'accounts:login' %}" style="color: #4CAF50; text-decoration: none;">Login here</a>
+    </p>
 </div>
 {% endblock %}
