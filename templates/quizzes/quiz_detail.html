@@ -52,9 +52,7 @@
                                 D) {{ question.option_d }}
                             </label><br>
                         </div>
-                        {% if question.reference_link %}
-                            <p><a href="{{ question.reference_link }}" target="_blank">Reference/Explanation</a></p>
-                        {% endif %}
+                        {# Reference link hidden while giving quiz — will be shown after submission only #}
                     </div>
                 {% empty %}
                     <p>This quiz has no questions yet.</p>
