@@ -1,38 +1,37 @@
 {% extends 'base.html' %}
 
-{% block title %}Quizzes - Online Tutorial System{% endblock %}
+{% block title %}Available Quizzes - Online Tutorial System{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="text-center mb-4" style="color:#2c3e50;">Available Quizzes</h2>
+<div style="max-width: 800px; margin: 40px auto; background-color: #f9f9f9; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
 
-    <!-- 🔍 Search Bar -->
-    <form method="get" action="" class="mb-4" style="max-width:500px; margin:0 auto; display:flex; gap:10px;">
-        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search quizzes..."
-               class="form-control" style="border-radius:8px; border:1px solid #ccc;">
-        <button type="submit" class="btn btn-primary" style="border-radius:8px;">Search</button>
+    <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Available Quizzes</h2>
+
+    <!-- Search Bar -->
+    <form method="GET" style="display: flex; justify-content: center; margin-bottom: 25px;">
+        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search quiz..." 
+               style="width: 70%; padding: 10px; border: 1px solid #ccc; border-radius: 6px 0 0 6px;">
+        <button type="submit" 
+                style="padding: 10px 15px; border: none; background-color: #4CAF50; color: white; border-radius: 0 6px 6px 0; cursor: pointer;">
+            🔍
+        </button>
     </form>
 
     {% if quizzes %}
-        <div class="quiz-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <ul style="list-style: none; padding: 0;">
             {% for quiz in quizzes %}
-                <div class="quiz-item" style="background-color: #f9f9fb; border: 1px solid #ddd; border-radius: 10px; padding: 20px; transition: all 0.3s ease;">
-                    <h3 style="color: #34495e; margin-bottom: 10px;">
-                        <a href="{% url 'quizzes:quiz_detail' quiz.id %}" style="text-decoration: none; color: #2c3e50;">{{ quiz.title }}</a>
-                    </h3>
-                    <p style="color: #555;">{{ quiz.description|truncatewords:20 }}</p>
-                    <p><strong>Questions:</strong> {{ quiz.questions.count }}</p>
-                    <p><strong>Created by:</strong> {{ quiz.created_by.username }}</p>
-                    <p><small>Created: {{ quiz.created_at|date:"M d, Y" }}</small></p>
+                <li style="background-color: white; padding: 15px; margin-bottom: 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
+                    <h4 style="margin: 0; color: #333;">{{ quiz.title }}</h4>
+                    <p style="margin: 5px 0; color: #666;">{{ quiz.description|truncatewords:20 }}</p>
                     <a href="{% url 'quizzes:quiz_detail' quiz.id %}" 
-                       style="display:inline-block; margin-top:10px; padding:8px 14px; background-color:#007bff; color:white; border-radius:6px; text-decoration:none; font-size:14px;">
-                       Start Quiz →
+                       style="display: inline-block; margin-top: 8px; background-color: #4CAF50; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none;">
+                        Start Quiz
                     </a>
-                </div>
+                </li>
             {% endfor %}
-        </div>
+        </ul>
     {% else %}
-        <p class="text-center" style="color:#555;">No quizzes available yet. Please check back later!</p>
+        <p style="text-align: center; color: #777;">No quizzes found.</p>
     {% endif %}
 </div>
 {% endblock %}
