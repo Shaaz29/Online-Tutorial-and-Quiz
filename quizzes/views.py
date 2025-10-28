@@ -7,8 +7,18 @@ import os
 from datetime import datetime
 
 def quiz_list(request):
+    query = request.GET.get('q', '')
     quizzes = Quiz.objects.all()
-    return render(request, 'quizzes/quiz_list.html', {'quizzes': quizzes})
+
+    # Filter quizzes if user types something in the search bar
+    if query:
+        quizzes = quizzes.filter(title__icontains=query)
+
+    return render(request, 'quizzes/quiz_list.html', {
+        'quizzes': quizzes,
+        'query': query
+    })
+
 
 def quiz_detail(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
