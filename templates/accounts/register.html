@@ -3,13 +3,29 @@
 {% block title %}Register - Online Tutorial System{% endblock %}
 
 {% block content %}
-<div class="auth-form">
-    <h2>Create Account</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Register</button>
-    </form>
-    <p>Already have an account? <a href="{% url 'accounts:login' %}">Login here</a></p>
+<div class="auth-form card">
+    <div class="card-body">
+        <h2 class="card-title">Create Account</h2>
+        <p class="card-sub">Join now to save progress and view your quiz history.</p>
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <div class="form-grid">
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-text">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <p class="mt-2">Already have an account? <a href="{% url 'accounts:login' %}">Login here</a></p>
+    </div>
 </div>
 {% endblock %}

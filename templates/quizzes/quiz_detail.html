@@ -28,7 +28,7 @@
             <button id="start-quiz-btn" class="btn btn-success">I have read the instructions. Start Quiz</button>
         </div>
         <div id="quiz-section" style="display:none;">
-            <div id="timer" style="font-size:1.2em; color:#b22222; font-weight:bold; margin-bottom:1em;">Time left: 06:00</div>
+            <div id="timer" style="font-size:1.2em; font-weight:bold; margin-bottom:1em;">Time left: 06:00</div>
             <form method="POST" action="{% url 'quizzes:submit_quiz' quiz.id %}" class="quiz-form" id="quiz-form">
                 {% csrf_token %}
                 {% for question in quiz.questions.all %}
@@ -52,9 +52,7 @@
                                 D) {{ question.option_d }}
                             </label><br>
                         </div>
-                        {% if question.reference_link %}
-                            <p><a href="{{ question.reference_link }}" target="_blank">Reference/Explanation</a></p>
-                        {% endif %}
+                        {# reference links are hidden during the quiz to prevent users seeing answers early #}
                     </div>
                 {% empty %}
                     <p>This quiz has no questions yet.</p>
