@@ -32,6 +32,13 @@
                 {% else %}
                     <span class="incorrect" style="margin-left:12px;">✘ Incorrect</span>
                 {% endif %}
+
+                <!-- 👇 Add this new section -->
+                {% if show_references and question.reference_link %}
+                    <p style="margin-top:6px;">
+                        🔗 <a href="{{ question.reference_link }}" target="_blank">View Solution</a>
+                    </p>
+                {% endif %}
             </div>
         </li>
     {% endfor %}
@@ -42,3 +49,4 @@
     </div>
 </div>
 {% endblock %}
+
