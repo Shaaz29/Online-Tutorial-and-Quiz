@@ -15,7 +15,13 @@
                 <li><a href="{% url 'tutorials:tutorial_list' %}">Tutorials</a></li>
                 <li><a href="{% url 'quizzes:quiz_list' %}">Quizzes</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'accounts:logout' %}">Logout ({{ user.username }})</a></li>
+                    <li>
+    <a href="{% url 'accounts:logout' %}" 
+       onclick="return confirm('Are you sure you want to log out?');">
+       Logout ({{ user.username }})
+    </a>
+</li>
+
                 {% else %}
                     <li><a href="{% url 'accounts:login' %}">Login</a></li>
                     <li><a href="{% url 'accounts:register' %}">Register</a></li>
