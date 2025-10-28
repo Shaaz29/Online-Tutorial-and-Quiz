@@ -72,14 +72,16 @@ def submit_quiz(request, quiz_id):
                 rank_comment = "Keep Practicing"
 
             return render(request, 'quizzes/quiz_result.html', {
-                'quiz': quiz,
-                'score': score,
-                'total_questions': total_questions,
-                'percent': int((score / total_questions) * 100) if total_questions > 0 else 0,
-                'user_rank': user_rank,
-                'rank_comment': rank_comment,
-                'responses': responses
-            })
+    'quiz': quiz,
+    'score': score,
+    'total_questions': total_questions,
+    'percent': int((score / total_questions) * 100) if total_questions > 0 else 0,
+    'user_rank': user_rank,
+    'rank_comment': rank_comment,
+    'responses': responses,
+    'show_references': True  
+})
+
         except Exception as e:
             # Log the error to the server console for debugging and show a user-friendly message
             tb = traceback.format_exc()
