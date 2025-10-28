@@ -6,30 +6,9 @@ import traceback
 import os
 from datetime import datetime
 
-
 def quiz_list(request):
-    query = request.GET.get('q', '')
-    category = request.GET.get('category', '')
-
     quizzes = Quiz.objects.all()
-
-    # Filter by search term
-    if query:
-        quizzes = quizzes.filter(title__icontains=query)
-
-    # Filter by category
-    if category and category != 'All':
-        quizzes = quizzes.filter(category=category)
-
-    categories = Quiz.objects.values_list('category', flat=True).distinct()
-
-    return render(request, 'quizzes/quiz_list.html', {
-        'quizzes': quizzes,
-        'query': query,
-        'category': category,
-        'categories': categories,
-    })
-
+    return render(request, 'quizzes/quiz_list.html', {'quizzes': quizzes})
 
 def quiz_detail(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
@@ -43,29 +22,18 @@ def quiz_detail(request, quiz_id):
             user_rank = unique_scores.index(user_result.score) + 1
     return render(request, 'quizzes/quiz_detail.html', {'quiz': quiz, 'user_rank': user_rank})
 
-
 @login_required
 def submit_quiz(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
         try:
-            # Log submission
-            try:
-                submissions_dir = os.path.join(os.getcwd(), 'logs')
-                os.makedirs(submissions_dir, exist_ok=True)
-                submissions_log = os.path.join(submissions_dir, 'quiz_submissions.log')
-                with open(submissions_log, 'a', encoding='utf-8') as sf:
-                    sf.write(f"[{datetime.utcnow().isoformat()}] user={getattr(request.user, 'username', 'anonymous')} quiz_id={quiz_id} POST_keys={list(request.POST.keys())}\n")
-            except Exception as _log_exc:
-                print('Failed to write quiz submission trace:', _log_exc)
-
             score = 0
             total_questions = quiz.questions.count()
             responses = {}
             for question in quiz.questions.all():
                 selected_answer = request.POST.get(f'question_{question.id}')
                 responses[str(question.id)] = selected_answer
-                if selected_answer is not None and selected_answer == question.correct_answer:
+                if selected_answer and selected_answer == question.correct_answer:
                     score += 1
 
             user_result = QuizResult.objects.create(
@@ -99,21 +67,9 @@ def submit_quiz(request, quiz_id):
                 'responses': responses,
                 'show_references': True
             })
-
         except Exception as e:
             tb = traceback.format_exc()
-            print(f"Error submitting quiz {quiz_id} by user {request.user}: {e}\n{tb}")
-            try:
-                logs_dir = os.path.join(os.getcwd(), 'logs')
-                os.makedirs(logs_dir, exist_ok=True)
-                log_path = os.path.join(logs_dir, 'quiz_errors.log')
-                with open(log_path, 'a', encoding='utf-8') as f:
-                    f.write(f"[{datetime.utcnow().isoformat()}] Error submitting quiz {quiz_id} by user {request.user}\n")
-                    f.write(tb)
-                    f.write('\n' + ('-' * 80) + '\n')
-            except Exception as log_exc:
-                print('Failed to write quiz error log:', log_exc)
-            messages.error(request, "An error occurred while submitting your quiz. Please try again.")
+            print(f"Error submitting quiz {quiz_id}: {e}\n{tb}")
+            messages.error(request, "An error occurred while submitting your quiz.")
             return redirect('quizzes:quiz_detail', quiz_id=quiz_id)
-
     return redirect('quizzes:quiz_detail', quiz_id=quiz_id)
