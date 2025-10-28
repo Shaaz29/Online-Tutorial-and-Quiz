@@ -85,6 +85,72 @@ main {
     margin: 2rem 0;
 }
 
+/* Grid cards for quizzes */
+.grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(2,6,23,0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-footer {
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f1f5f9;
+    background: #fbfdff;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #253858;
+}
+
+.card-top { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.quiz-badge {
+    background: #eef2ff;
+    color: #3b4cca;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.card-desc { color:#556; margin-top:0.5rem; }
+
+.card-meta { font-size:0.85rem; color:#6b7280 }
+
+.quiz-header { margin-bottom: 1rem; }
+.quiz-header .lead { color:#475569 }
+
+/* Auth form refinements */
+.auth-form.card { max-width: 520px; margin: 2rem auto; border-radius:12px; }
+.auth-form .card-body { padding: 2rem; }
+.auth-form .card-title { margin-bottom: 0.25rem; color: #222; }
+.auth-form .card-sub { color: #6b7280; margin-bottom: 1rem }
+.form-grid { display:flex; flex-direction:column; gap:0.8rem; }
+.form-group input, .form-group select { width:100%; padding:0.6rem; border:1px solid #e6eefc; border-radius:8px; }
+.form-group label { font-weight:600; color:#374151; margin-bottom:0.25rem; display:block; }
+.form-error { color: #b91c1c; font-size:0.9rem; margin-top:0.35rem }
+
+@media (max-width:600px) {
+    .card-footer { flex-direction: column; gap:0.5rem; align-items:flex-start }
+}
+
 .tutorial-item, .quiz-item {
     background: white;
     padding: 1.5rem;
@@ -211,15 +277,16 @@ main {
     border-left: 4px solid #4a63d8;
 }
 
-/* Timer badge */
+/* Timer badge - light and highly visible */
 #timer {
     display: inline-block;
     padding: 0.5rem 0.75rem;
-    background: linear-gradient(90deg, #ff7a18, #af002d);
-    color: white;
+    background: linear-gradient(90deg, #fff7cc, #fff0b8);
+    color: #333;
     border-radius: 999px;
     font-weight: 700;
-    box-shadow: 0 4px 14px rgba(175,0,45,0.15);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.06);
 }
 
 /* Start instructions overlay */

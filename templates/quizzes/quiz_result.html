@@ -27,6 +27,9 @@
                 <span>Your answer:</span>
                 <span style="margin-left:6px;">{{ responses|get_item:question.id|stringformat:"s" }}</span>
                 <span style="margin-left:12px;">Correct answer: {{ question.correct_answer }}</span>
+                {% if question.reference_link %}
+                    <div style="margin-top:6px;"><a href="{{ question.reference_link }}" target="_blank">Reference / Explanation</a></div>
+                {% endif %}
                 {% if responses|get_item:question.id|stringformat:"s" == question.correct_answer %}
                     <span class="correct" style="margin-left:12px;">✔ Correct</span>
                 {% else %}
